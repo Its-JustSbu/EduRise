@@ -43,20 +43,25 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: devtest
-      url: https://devtest.edurise.pages.dev
+      url: https://edurise-devtest.116superstm.workers.dev
     steps:
+      # Needed so wrangler.jsonc is present at the repo root for config
+      # resolution; the actual site assets + generated dist/wrangler.json
+      # come from the downloaded build artifact below, not from this checkout.
+      - uses: actions/checkout@v4
+
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: site-build-${{ github.sha }}
           path: dist
 
-      - name: Deploy to Cloudflare Pages (devtest)
+      - name: Deploy to Cloudflare Workers (devtest)
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=edurise --branch=devtest
+          command: deploy --name edurise-devtest
 
   # Depends only on build-and-test (not deploy-devtest): pushing to devtest and
   # pushing to main are mutually exclusive triggers for the same event, so a
@@ -70,17 +75,19 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: https://edurise.pages.dev
+      url: https://edurise.116superstm.workers.dev
     steps:
+      - uses: actions/checkout@v4
+
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: site-build-${{ github.sha }}
           path: dist
 
-      - name: Deploy to Cloudflare Pages (production)
+      - name: Deploy to Cloudflare Workers (production)
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=edurise --branch=main
+          command: deploy --name edurise
