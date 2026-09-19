@@ -1,0 +1,86 @@
+name: Build, Test & Deploy
+
+on:
+  push:
+    branches: [main, devtest]
+  pull_request:
+    branches: [main, devtest]
+
+env:
+  NODE_VERSION: '22.18.0'
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run type-check
+      - run: npm run test:unit -- --run
+      - run: npm run build
+        env:
+          VITE_WEB3FORMS_KEY: ${{ secrets.VITE_WEB3FORMS_KEY }}
+
+      - name: Publish build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-build-${{ github.sha }}
+          path: dist
+          retention-days: 14
+
+  deploy-devtest:
+    name: Deploy devtest
+    needs: build-and-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/devtest'
+    runs-on: ubuntu-latest
+    environment:
+      name: devtest
+      url: https://devtest.edurise.pages.dev
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site-build-${{ github.sha }}
+          path: dist
+
+      - name: Deploy to Cloudflare Pages (devtest)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=edurise --branch=devtest
+
+  # Depends only on build-and-test (not deploy-devtest): pushing to devtest and
+  # pushing to main are mutually exclusive triggers for the same event, so a
+  # hard dependency on deploy-devtest would make this job skip on every direct
+  # push to main. The "must be reviewed on devtest first" gate is enforced by
+  # the required reviewer on the production environment below, not by needs.
+  deploy-prod:
+    name: Deploy production
+    needs: build-and-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://edurise.pages.dev
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site-build-${{ github.sha }}
+          path: dist
+
+      - name: Deploy to Cloudflare Pages (production)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=edurise --branch=main
