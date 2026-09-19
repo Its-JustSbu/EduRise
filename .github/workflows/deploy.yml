@@ -62,7 +62,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: '4.135.0'
-          command: deploy --name edurise-devtest
+          command: deploy --config dist/wrangler.json --name edurise-devtest
 
   # Depends only on build-and-test (not deploy-devtest): pushing to devtest and
   # pushing to main are mutually exclusive triggers for the same event, so a
@@ -92,4 +92,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: '4.135.0'
-          command: deploy --name edurise
+          command: deploy --config dist/wrangler.json --name edurise
