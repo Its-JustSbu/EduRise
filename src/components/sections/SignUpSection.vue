@@ -47,7 +47,7 @@ import DecorativeBlob from '@/components/ui/DecorativeBlob.vue'
 .signup__blob {
   width: 28rem;
   height: 28rem;
-  top: -6rem;
+  top: 2rem;
   right: -8rem;
 }
 
