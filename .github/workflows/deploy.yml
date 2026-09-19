@@ -61,7 +61,8 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy --name edurise-devtest
+          wranglerVersion: '4.135.0'
+          command: deploy --config dist/wrangler.json --name edurise-devtest
 
   # Depends only on build-and-test (not deploy-devtest): pushing to devtest and
   # pushing to main are mutually exclusive triggers for the same event, so a
@@ -90,4 +91,47 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy --name edurise
+          wranglerVersion: '4.135.0'
+          command: deploy --config dist/wrangler.json --name edurise
+
+  # Tags the exact commit that just went live and publishes a GitHub Release
+  # with auto-generated notes, so there's a clear record of what shipped and
+  # when. Only runs after a successful production deploy.
+  tag-release:
+    name: Tag & Release
+    needs: deploy-prod
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute next version
+        id: version
+        run: |
+          git fetch --tags --force
+          latest=$(git tag -l 'v*.*.*' --sort=-v:refname | head -n1)
+          if [ -z "$latest" ]; then
+            new_version="v1.0.0"
+          else
+            IFS='.' read -r major minor patch <<< "${latest#v}"
+            new_version="v${major}.${minor}.$((patch + 1))"
+          fi
+          echo "new_version=$new_version" >> "$GITHUB_OUTPUT"
+          echo "previous_version=$latest" >> "$GITHUB_OUTPUT"
+
+      - name: Create and push tag
+        run: |
+          git tag "${{ steps.version.outputs.new_version }}" "${{ github.sha }}"
+          git push origin "${{ steps.version.outputs.new_version }}"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.version.outputs.new_version }}" \
+            --title "${{ steps.version.outputs.new_version }}" \
+            --generate-notes

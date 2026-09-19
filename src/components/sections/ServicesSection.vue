@@ -15,11 +15,10 @@ import ModuleCard from '@/components/ui/ModuleCard.vue'
         :transition="{ duration: 0.5 }"
       >
         <span class="eyebrow">Our Development Modules</span>
-        <h2>Personalised support across four development areas</h2>
+        <h2>Four ways we help learners grow</h2>
         <p class="services__lede">
-          Learners can access individual modules or combine different modules according to their
-          development needs — three structured sessions each week, shaped around their strengths,
-          goals and areas for growth.
+          Pick one module, or combine a few. Every learner gets 3 sessions a week, built around
+          their own goals.
         </p>
       </motion.div>
 

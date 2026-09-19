@@ -20,7 +20,7 @@ defineProps<{
     <h3 class="module-card__title">{{ module.title }}</h3>
     <p class="module-card__summary">{{ module.summary }}</p>
     <ul class="module-card__list" role="list">
-      <li v-for="item in module.develops" :key="item">{{ item }}</li>
+      <li v-for="item in module.develops" :key="item" class="module-card__tag">{{ item }}</li>
     </ul>
   </motion.article>
 </template>
@@ -55,25 +55,28 @@ defineProps<{
 
 .module-card__list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: var(--space-2);
-  font-size: 0.9rem;
-  color: var(--color-ink-900);
 }
 
-.module-card__list li {
-  padding-left: var(--space-4);
-  position: relative;
-  line-height: 1.5;
+.module-card__tag {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--color-cream-100);
+  color: var(--color-navy-900);
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.2;
 }
 
-.module-card__list li::before {
+.module-card__tag::before {
   content: '';
-  position: absolute;
-  left: 0;
-  top: 0.55em;
   width: 6px;
   height: 6px;
+  flex-shrink: 0;
   border-radius: 50%;
   background: var(--color-gold-500);
 }
