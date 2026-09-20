@@ -117,7 +117,7 @@ function selectSection(id: string) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-5);
+  gap: var(--space-4);
   height: var(--nav-height);
 }
 
@@ -129,12 +129,14 @@ function selectSection(id: string) {
   font-weight: 600;
   color: var(--color-white);
   font-size: 1.05rem;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .app-nav__links {
   display: flex;
   align-items: center;
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
 
 .app-nav__link {
@@ -143,6 +145,7 @@ function selectSection(id: string) {
   font-weight: 500;
   padding-block: var(--space-2);
   position: relative;
+  white-space: nowrap;
   transition: color 0.25s var(--ease-out-soft);
 }
 
