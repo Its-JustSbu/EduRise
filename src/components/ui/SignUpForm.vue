@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { motion, AnimatePresence } from 'motion-v'
 import { createSignUpForm } from '@/composables/useFormValidation'
-import { modules } from '@/data/siteContent'
+import { educationalSupportModules, chessClub } from '@/data/siteContent'
 import BaseButton from './BaseButton.vue'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
@@ -112,10 +112,22 @@ async function handleSubmit() {
       </label>
 
       <fieldset class="signup-form__fieldset">
-        <legend>Which module(s) are you interested in?</legend>
-        <label v-for="module in modules" :key="module.id" class="signup-form__checkbox">
+        <legend>Educational Support <span class="signup-form__legend-tag">Paid</span></legend>
+        <label
+          v-for="module in educationalSupportModules"
+          :key="module.id"
+          class="signup-form__checkbox"
+        >
           <input v-model="form.modules" type="checkbox" :value="module.title" />
           <span>{{ module.title }}</span>
+        </label>
+      </fieldset>
+
+      <fieldset class="signup-form__fieldset">
+        <legend>Chess Club <span class="signup-form__legend-tag signup-form__legend-tag--free">Free</span></legend>
+        <label class="signup-form__checkbox">
+          <input v-model="form.modules" type="checkbox" :value="chessClub.title" />
+          <span>{{ chessClub.title }}</span>
         </label>
         <span v-if="errors.modules" class="signup-form__error">{{ errors.modules }}</span>
       </fieldset>
@@ -199,9 +211,30 @@ async function handleSubmit() {
 }
 
 .signup-form__fieldset legend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
   font-weight: 600;
   margin-bottom: var(--space-2);
   padding: 0;
+}
+
+.signup-form__legend-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem var(--space-2);
+  border-radius: var(--radius-full);
+  background: rgba(14, 27, 51, 0.08);
+  color: var(--color-navy-700);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.signup-form__legend-tag--free {
+  background: var(--color-gold-500);
+  color: var(--color-navy-900);
 }
 
 .signup-form__checkbox,

@@ -5,9 +5,10 @@ export interface NavLink {
 
 export const navLinks: NavLink[] = [
   { id: 'hero', label: 'Home' },
-  { id: 'services', label: 'Modules' },
-  { id: 'approach', label: 'Our Approach' },
-  { id: 'difference', label: 'The EduRise Difference' },
+  { id: 'educational-support', label: 'Support' },
+  { id: 'approach', label: 'Approach' },
+  { id: 'chess-club', label: 'Chess Club' },
+  { id: 'difference', label: 'Difference' },
   { id: 'signup', label: 'Sign Up' },
 ]
 
@@ -18,19 +19,8 @@ export interface Module {
   develops: string[]
 }
 
-export const modules: Module[] = [
-  {
-    id: 'chess-coaching',
-    title: 'Chess Coaching',
-    summary: 'Chess builds focus and sharp thinking, one move at a time.',
-    develops: [
-      'Strategic thinking',
-      'Problem-solving',
-      'Focus & patience',
-      'Planning ahead',
-      'Discipline & resilience',
-    ],
-  },
+// EduRise's paid service: personalised, structured programmes.
+export const educationalSupportModules: Module[] = [
   {
     id: 'cognitive-development',
     title: 'Cognitive Development',
@@ -69,6 +59,20 @@ export const modules: Module[] = [
   },
 ]
 
+// EduRise's free community initiative — not part of the paid programmes above.
+export const chessClub: Module = {
+  id: 'chess-coaching',
+  title: 'Chess Coaching',
+  summary: 'Chess builds focus and sharp thinking, one move at a time.',
+  develops: [
+    'Strategic thinking',
+    'Problem-solving',
+    'Focus & patience',
+    'Planning ahead',
+    'Discipline & resilience',
+  ],
+}
+
 export interface TimelineStep {
   id: string
   title: string
@@ -91,7 +95,7 @@ export interface Director {
 }
 
 export const directors: Director[] = [
-  { name: 'Mpho Mabesela', phone: '078 356 1729', email: 'mphomabesela26@gmail.com' },
+  { name: 'Mpho Mabelesa', phone: '078 356 1729', email: 'mphomabelesa26@gmail.com' },
   { name: 'Ofentse Molombwa', phone: '071 825 8781', email: 'ofentsemolombwa@gmail.com' },
 ]
 

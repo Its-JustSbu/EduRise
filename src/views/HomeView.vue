@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import HeroSection from '@/components/sections/HeroSection.vue'
-import ServicesSection from '@/components/sections/ServicesSection.vue'
+import EducationalSupportSection from '@/components/sections/EducationalSupportSection.vue'
 import ApproachSection from '@/components/sections/ApproachSection.vue'
+import ChessClubSection from '@/components/sections/ChessClubSection.vue'
 import DifferenceSection from '@/components/sections/DifferenceSection.vue'
 import SignUpSection from '@/components/sections/SignUpSection.vue'
 </script>
@@ -9,8 +10,9 @@ import SignUpSection from '@/components/sections/SignUpSection.vue'
 <template>
   <main>
     <HeroSection />
-    <ServicesSection />
+    <EducationalSupportSection />
     <ApproachSection />
+    <ChessClubSection />
     <DifferenceSection />
     <SignUpSection />
   </main>
