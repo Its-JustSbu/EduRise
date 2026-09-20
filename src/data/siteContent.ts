@@ -91,7 +91,7 @@ export interface Director {
 }
 
 export const directors: Director[] = [
-  { name: 'Mpho Mabesela', phone: '078 356 1729', email: 'mphomabesela26@gmail.com' },
+  { name: 'Mpho Mabelesa', phone: '078 356 1729', email: 'mphomabelesa26@gmail.com' },
   { name: 'Ofentse Molombwa', phone: '071 825 8781', email: 'ofentsemolombwa@gmail.com' },
 ]
 
