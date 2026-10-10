@@ -1,11 +1,12 @@
-# EduRise Academy
+# Tlhokomela Bokamoso Academy
 
-Marketing site and learner sign-up form for EduRise Academy — Chess Coaching,
+Marketing site and learner sign-up form for Tlhokomela Bokamoso Academy — Chess
+Coaching,
 Cognitive Development, Schoolwork Support and Life Coaching & Mentorship in
 Potchefstroom, South Africa.
 
 Built with Vue 3 + Vite, animated with [motion-v](https://motion-vue.dev), and
-deployed on Cloudflare Workers at <https://eduriseacademy.co.za>. See
+deployed on Cloudflare Workers at <https://tlhokomelabokamosoacademy.co.za>. See
 `.claude/plans` (or the conversation that produced this repo) for the full
 design/deployment plan.
 
@@ -17,7 +18,7 @@ npm install
 
 Copy `.env.example` to `.env` and set `VITE_WEB3FORMS_KEY` to a free
 [Web3Forms](https://web3forms.com) access key configured to deliver to
-info@eduriseacademy.co.za.
+info@tlhokomelabokamosoacademy.co.za.
 
 ### Compile and Hot-Reload for Development
 
@@ -53,8 +54,8 @@ Two Wrangler environments are declared in `wrangler.jsonc`:
 
 | Environment | Worker | Served at |
 | --- | --- | --- |
-| `production` | `edurise` | `eduriseacademy.co.za` + `www` (workers.dev disabled) |
-| `devtest` | `edurise-devtest` | `edurise-devtest.116superstm.workers.dev` |
+| `production` | `tlhokomela-bokamoso` | `tlhokomelabokamosoacademy.co.za` + `www` (workers.dev disabled) |
+| `devtest` | `tlhokomela-bokamoso-devtest` | `tlhokomela-bokamoso-devtest.116superstm.workers.dev` |
 
 CI deploys both: pushes to `devtest` go to staging, pushes to `main` go to
 production behind a required reviewer. Manual deploys use `npm run deploy` or
@@ -67,7 +68,7 @@ would deploy to the wrong worker. Always build through the scripts above, never
 a bare `vite build` followed by `wrangler deploy`.
 
 The production deploy creates the custom domains, so `CLOUDFLARE_API_TOKEN`
-needs **Zone (Read)** and **Workers Routes (Edit)** on `eduriseacademy.co.za`
+needs **Zone (Read)** and **Workers Routes (Edit)** on `tlhokomelabokamosoacademy.co.za`
 alongside its Workers scopes.
 
 `robots.txt` and `sitemap.xml` are generated into the build by a small plugin
@@ -77,9 +78,16 @@ indexed; every other build is crawlable.
 
 ## Email
 
-DNS and inbound mail are on Cloudflare. `info@eduriseacademy.co.za` is a
+DNS and inbound mail are on Cloudflare. `info@tlhokomelabokamosoacademy.co.za` is a
 [Cloudflare Email Routing](https://developers.cloudflare.com/email-routing/)
 address that forwards to the program directors' inboxes — it receives only, so
 replies leave from their personal addresses. Moving to mailboxes that can send
 as the domain means replacing the MX records with a mail host (Zoho, Google
 Workspace) and turning Email Routing off.
+
+## Rebrand note
+
+The site was previously EduRise Academy on `eduriseacademy.co.za`. That name
+and domain were retired over a potential conflict with a similarly named
+organisation; the old domain is not redirected here, so inbound links to it do
+not reach this site.

@@ -14,8 +14,8 @@ import {
   orgInfo,
 } from './src/data/siteContent'
 
-const SITE_ORIGIN = 'https://eduriseacademy.co.za'
-const CONTACT_EMAIL = 'info@eduriseacademy.co.za'
+const SITE_ORIGIN = 'https://tlhokomelabokamosoacademy.co.za'
+const CONTACT_EMAIL = 'info@tlhokomelabokamosoacademy.co.za'
 
 // Structured data for the organisation, injected into index.html at build
 // time. It is built from src/data/siteContent.ts rather than hand-written so
@@ -110,7 +110,7 @@ function buildStructuredData() {
 // de-index the live site.
 function seoFiles(): Plugin {
   return {
-    name: 'edurise-seo-files',
+    name: 'tlhokomela-bokamoso-seo-files',
     apply: 'build',
 
     transformIndexHtml() {

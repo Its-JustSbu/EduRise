@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeAll } from 'vitest'
 import { mount } from '@vue/test-utils'
 import AppNav from '../AppNav.vue'
-import { navLinks } from '@/data/siteContent'
+import { navLinks, orgInfo } from '@/data/siteContent'
 
 class MockIntersectionObserver {
   observe = vi.fn<() => void>()
@@ -38,7 +38,7 @@ describe('AppNav', () => {
   it('renders the brand name and a call to action', () => {
     const wrapper = mount(AppNav)
 
-    expect(wrapper.text()).toContain('EduRise Academy')
+    expect(wrapper.text()).toContain(orgInfo.name)
     expect(wrapper.text()).toContain('Enquire Now')
   })
 })

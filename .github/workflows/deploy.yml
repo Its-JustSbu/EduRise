@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: devtest
-      url: https://edurise-devtest.116superstm.workers.dev
+      url: https://tlhokomela-bokamoso-devtest.116superstm.workers.dev
     steps:
       # Needed so wrangler.jsonc is present at the repo root for config
       # resolution; the actual site assets + generated dist/wrangler.json
@@ -64,7 +64,7 @@ jobs:
       - name: Verify artifact targets devtest
         run: |
           name=$(node -p "require('./dist/wrangler.json').name")
-          test "$name" = "edurise-devtest" || {
+          test "$name" = "tlhokomela-bokamoso-devtest" || {
             echo "::error::Artifact was built for '$name', refusing to deploy it as devtest"
             exit 1
           }
@@ -89,7 +89,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: https://eduriseacademy.co.za
+      url: https://tlhokomelabokamosoacademy.co.za
     steps:
       - uses: actions/checkout@v4
 
@@ -102,13 +102,13 @@ jobs:
       - name: Verify artifact targets production
         run: |
           name=$(node -p "require('./dist/wrangler.json').name")
-          test "$name" = "edurise" || {
+          test "$name" = "tlhokomela-bokamoso" || {
             echo "::error::Artifact was built for '$name', refusing to deploy it as production"
             exit 1
           }
 
       # Creating the custom domains needs Zone (Read) and Workers Routes (Edit)
-      # on eduriseacademy.co.za in addition to the Workers scopes, and the zone
+      # on tlhokomelabokamosoacademy.co.za in addition to the Workers scopes, and the zone
       # must already be active in Cloudflare.
       - name: Deploy to Cloudflare Workers (production)
         uses: cloudflare/wrangler-action@v3

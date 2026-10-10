@@ -20,7 +20,7 @@ export interface Module {
   develops: string[]
 }
 
-// EduRise's paid service: personalised, structured programmes.
+// The academy's paid service: personalised, structured programmes.
 export const educationalSupportModules: Module[] = [
   {
     id: 'cognitive-development',
@@ -60,7 +60,7 @@ export const educationalSupportModules: Module[] = [
   },
 ]
 
-// EduRise's free community initiative — not part of the paid programmes above.
+// The academy's free community initiative — not part of the paid programmes above.
 export const chessClub: Module = {
   id: 'chess-coaching',
   title: 'Chess Coaching',
@@ -149,7 +149,7 @@ export const directors: Director[] = [
 ]
 
 export const orgInfo = {
-  name: 'EduRise Academy',
+  name: 'Tlhokomela Bokamoso Academy',
   tagline: 'Develop the learner, not just the skill.',
   outcomeStatement: 'Developing Minds. Building Character. Empowering Futures.',
   location: 'Potchefstroom, Ikageng, South Africa',
