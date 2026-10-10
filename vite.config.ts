@@ -85,7 +85,7 @@ function buildStructuredData() {
       contactType: 'Program director',
       name: director.name,
       telephone: director.phone,
-      email: CONTACT_EMAIL,
+      email: director.email,
     })),
     makesOffer: [...paidLessons, freeChessClub],
     hasOfferCatalog: {

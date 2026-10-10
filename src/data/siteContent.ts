@@ -143,9 +143,13 @@ export interface Director {
   email: string
 }
 
+// Addresses are Cloudflare Email Routing aliases on the academy domain that
+// forward to each director's personal inbox, so no private address is
+// published. Both routes must exist in Email Routing before this ships or
+// mail to them is rejected.
 export const directors: Director[] = [
-  { name: 'Mpho Mabelesa', phone: '078 356 1729', email: 'mphomabelesa26@gmail.com' },
-  { name: 'Ofentse Molombwa', phone: '071 825 8781', email: 'ofentsemolombwa@gmail.com' },
+  { name: 'Mpho Mabelesa', phone: '078 356 1729', email: 'mpho@tlhokomelabokamosoacademy.co.za' },
+  { name: 'Ofentse Molombwa', phone: '071 825 8781', email: 'ofentse@tlhokomelabokamosoacademy.co.za' },
 ]
 
 export const orgInfo = {
