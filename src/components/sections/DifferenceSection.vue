@@ -19,7 +19,7 @@ const points = [
         :viewport="{ once: true, amount: 0.4 }"
         :transition="{ duration: 0.5 }"
       >
-        <span class="eyebrow">The EduRise Difference</span>
+        <span class="eyebrow">The Tlhokomela Bokamoso Difference</span>
         <h2>Education is about more than marks</h2>
         <p class="difference__lede">
           Together, these areas create a supportive environment where learners can grow

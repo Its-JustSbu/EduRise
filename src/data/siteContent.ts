@@ -20,7 +20,7 @@ export interface Module {
   develops: string[]
 }
 
-// EduRise's paid service: personalised, structured programmes.
+// The academy's paid service: personalised, structured programmes.
 export const educationalSupportModules: Module[] = [
   {
     id: 'cognitive-development',
@@ -60,7 +60,7 @@ export const educationalSupportModules: Module[] = [
   },
 ]
 
-// EduRise's free community initiative — not part of the paid programmes above.
+// The academy's free community initiative — not part of the paid programmes above.
 export const chessClub: Module = {
   id: 'chess-coaching',
   title: 'Chess Coaching',
@@ -143,14 +143,29 @@ export interface Director {
   email: string
 }
 
+// Addresses are Cloudflare Email Routing aliases on the academy domain that
+// forward to each director's personal inbox, so no private address is
+// published. Both routes must exist in Email Routing before this ships or
+// mail to them is rejected.
 export const directors: Director[] = [
-  { name: 'Mpho Mabelesa', phone: '078 356 1729', email: 'mphomabelesa26@gmail.com' },
-  { name: 'Ofentse Molombwa', phone: '071 825 8781', email: 'ofentsemolombwa@gmail.com' },
+  { name: 'Mpho Mabelesa', phone: '078 356 1729', email: 'mpho@tlhokomelabokamosoacademy.co.za' },
+  { name: 'Ofentse Molombwa', phone: '071 825 8781', email: 'ofentse@tlhokomelabokamosoacademy.co.za' },
 ]
 
 export const orgInfo = {
-  name: 'EduRise Academy',
+  name: 'Tlhokomela Bokamoso Academy',
   tagline: 'Develop the learner, not just the skill.',
   outcomeStatement: 'Developing Minds. Building Character. Empowering Futures.',
-  location: 'Potchefstroom, Ikageng, South Africa',
+  location: '3986 Letshulu Street, Ikageng, Potchefstroom',
+  // Broken out so the structured data can publish a full postal address and
+  // coordinates rather than a single display string.
+  address: {
+    street: '3986 Letshulu Street',
+    locality: 'Ikageng, Potchefstroom',
+    region: 'North West',
+    postalCode: '2539',
+    country: 'ZA',
+  },
+  geo: { latitude: -26.730572, longitude: 27.0515799 },
+  mapUrl: 'https://www.google.com/maps?q=-26.730572,27.0515799',
 }

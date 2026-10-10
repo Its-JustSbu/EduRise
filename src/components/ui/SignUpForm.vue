@@ -31,7 +31,7 @@ async function handleSubmit() {
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({
         access_key: import.meta.env.VITE_WEB3FORMS_KEY,
-        subject: 'New EduRise Academy sign-up enquiry',
+        subject: 'New Tlhokomela Bokamoso Academy sign-up enquiry',
         from_name: form.guardianName,
         guardian_name: form.guardianName,
         learner_name: form.learnerName,
@@ -161,7 +161,7 @@ async function handleSubmit() {
 
       <p v-if="status === 'error'" class="signup-form__error signup-form__error--banner">
         Something went wrong sending your enquiry. Please try again, or email us directly at
-        <a href="mailto:info@eduriseacademy.co.za">info@eduriseacademy.co.za</a>.
+        <a href="mailto:info@tlhokomelabokamosoacademy.co.za">info@tlhokomelabokamosoacademy.co.za</a>.
       </p>
 
       <BaseButton type="submit" :disabled="status === 'submitting'">

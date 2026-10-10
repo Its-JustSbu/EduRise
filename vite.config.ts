@@ -14,8 +14,8 @@ import {
   orgInfo,
 } from './src/data/siteContent'
 
-const SITE_ORIGIN = 'https://eduriseacademy.co.za'
-const CONTACT_EMAIL = 'info@eduriseacademy.co.za'
+const SITE_ORIGIN = 'https://tlhokomelabokamosoacademy.co.za'
+const CONTACT_EMAIL = 'info@tlhokomelabokamosoacademy.co.za'
 
 // Structured data for the organisation, injected into index.html at build
 // time. It is built from src/data/siteContent.ts rather than hand-written so
@@ -75,17 +75,25 @@ function buildStructuredData() {
     email: CONTACT_EMAIL,
     address: {
       '@type': 'PostalAddress',
-      addressLocality: 'Ikageng, Potchefstroom',
-      addressRegion: 'North West',
-      addressCountry: 'ZA',
+      streetAddress: orgInfo.address.street,
+      addressLocality: orgInfo.address.locality,
+      addressRegion: orgInfo.address.region,
+      postalCode: orgInfo.address.postalCode,
+      addressCountry: orgInfo.address.country,
     },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: orgInfo.geo.latitude,
+      longitude: orgInfo.geo.longitude,
+    },
+    hasMap: orgInfo.mapUrl,
     areaServed: { '@type': 'City', name: 'Potchefstroom' },
     contactPoint: directors.map((director) => ({
       '@type': 'ContactPoint',
       contactType: 'Program director',
       name: director.name,
       telephone: director.phone,
-      email: CONTACT_EMAIL,
+      email: director.email,
     })),
     makesOffer: [...paidLessons, freeChessClub],
     hasOfferCatalog: {
@@ -110,7 +118,7 @@ function buildStructuredData() {
 // de-index the live site.
 function seoFiles(): Plugin {
   return {
-    name: 'edurise-seo-files',
+    name: 'tlhokomela-bokamoso-seo-files',
     apply: 'build',
 
     transformIndexHtml() {

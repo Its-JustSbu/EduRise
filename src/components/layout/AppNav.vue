@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'motion-v'
 import { Menu, X } from '@lucide/vue'
 import { useScrollSpy } from '@/composables/useScrollSpy'
 import { useSmoothScroll } from '@/composables/useSmoothScroll'
-import { navLinks } from '@/data/siteContent'
+import { navLinks, orgInfo } from '@/data/siteContent'
 import knightEmblem from '@/assets/images/knight-emblem.svg'
 import BaseButton from '@/components/ui/BaseButton.vue'
 
@@ -37,7 +37,7 @@ function selectSection(id: string) {
     <div class="app-nav__inner container">
       <button class="app-nav__brand" @click="scrollToSection('hero')">
         <img :src="knightEmblem" alt="" width="36" height="36" />
-        <span>EduRise Academy</span>
+        <span>{{ orgInfo.name }}</span>
       </button>
 
       <nav class="app-nav__links" aria-label="Primary">
@@ -128,7 +128,7 @@ function selectSection(id: string) {
   font-family: var(--font-display);
   font-weight: 600;
   color: var(--color-white);
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -185,7 +185,7 @@ function selectSection(id: string) {
   transition: color 0.25s var(--ease-out-soft);
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1024px) {
   .app-nav__links,
   .app-nav__cta {
     display: none;
