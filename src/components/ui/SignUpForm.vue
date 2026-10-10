@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { motion, AnimatePresence } from 'motion-v'
 import { createSignUpForm } from '@/composables/useFormValidation'
-import { educationalSupportModules, chessClub } from '@/data/siteContent'
+import { educationalSupportModules, chessClub, chessLessonPackages } from '@/data/siteContent'
 import BaseButton from './BaseButton.vue'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
@@ -130,6 +130,14 @@ async function handleSubmit() {
           <span>{{ chessClub.title }}</span>
         </label>
         <span v-if="errors.modules" class="signup-form__error">{{ errors.modules }}</span>
+      </fieldset>
+
+      <fieldset class="signup-form__fieldset">
+        <legend>Chess Lessons for Adults <span class="signup-form__legend-tag">Paid</span></legend>
+        <label v-for="pkg in chessLessonPackages" :key="pkg.id" class="signup-form__checkbox">
+          <input v-model="form.modules" type="checkbox" :value="`${pkg.name} (${pkg.lessons})`" />
+          <span>{{ pkg.name }} &mdash; {{ pkg.price }}</span>
+        </label>
       </fieldset>
 
       <fieldset class="signup-form__fieldset">
