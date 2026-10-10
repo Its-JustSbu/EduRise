@@ -12,7 +12,7 @@ import {
   directors,
   educationalSupportModules,
   orgInfo,
-} from './src/data/siteContent'
+} from './src/data/siteContent.ts'
 
 const SITE_ORIGIN = 'https://tlhokomelabokamosoacademy.co.za'
 const CONTACT_EMAIL = 'info@tlhokomelabokamosoacademy.co.za'

@@ -1,10 +1,12 @@
 import './assets/styles/global.css'
 
-import { createApp } from 'vue'
+import { createSSRApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
-const app = createApp(App)
+// createSSRApp hydrates the markup that scripts/prerender.mjs injected,
+// rather than discarding it and rendering from scratch.
+const app = createSSRApp(App)
 
 app.use(router)
 
