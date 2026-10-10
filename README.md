@@ -70,6 +70,11 @@ The production deploy creates the custom domains, so `CLOUDFLARE_API_TOKEN`
 needs **Zone (Read)** and **Workers Routes (Edit)** on `eduriseacademy.co.za`
 alongside its Workers scopes.
 
+`robots.txt` and `sitemap.xml` are generated into the build by a small plugin
+in `vite.config.ts` rather than checked into `public/`, so `lastmod` stays
+accurate. The devtest build emits `Disallow: /` so the staging copy is never
+indexed; every other build is crawlable.
+
 ## Email
 
 DNS and inbound mail are on Cloudflare. `info@eduriseacademy.co.za` is a
