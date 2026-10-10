@@ -76,6 +76,33 @@ in `vite.config.ts` rather than checked into `public/`, so `lastmod` stays
 accurate. The devtest build emits `Disallow: /` so the staging copy is never
 indexed; every other build is crawlable.
 
+## Prerendering
+
+`npm run build` renders the page to static HTML before deploying, so the
+document a crawler receives contains the real content rather than an empty
+`<div id="app">`. Three steps, in order:
+
+1. `build-only` — the client bundle, into `dist/`
+2. `build:ssr` — a throwaway SSR bundle (`vite.ssr.config.ts`), into `dist-ssr/`
+3. `prerender` — `scripts/prerender.mjs` renders `/` and injects the markup
+   into `dist/index.html`
+
+The browser then hydrates that markup, which is why `main.ts` uses
+`createSSRApp` rather than `createApp`. Route definitions live in
+`src/router/routes.ts`, apart from `src/router/index.ts`, so the prerender
+entry can import them without pulling in `createWebHistory` — that touches
+`window` at module load and would crash the SSR build.
+
+`motion-v` serialises its `initial` state, so prerendered elements carry
+`style="opacity:0"`. The animations clear it in the browser; a `<noscript>`
+rule in the prerendered HTML covers visitors without JavaScript. That rule
+matches `opacity:0;` with the semicolon so it leaves the decorative blobs,
+which legitimately render at `opacity:0.18` and `0.12`, alone.
+
+`src/__tests__/hydration.spec.ts` renders the real app server-side and
+hydrates it, failing on any mismatch warning. A mismatch is otherwise silent
+in production, so this is the guard that keeps prerendering honest.
+
 ## Email
 
 DNS and inbound mail are on Cloudflare. `info@tlhokomelabokamosoacademy.co.za` is a
