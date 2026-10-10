@@ -8,6 +8,7 @@ export const navLinks: NavLink[] = [
   { id: 'educational-support', label: 'Support' },
   { id: 'approach', label: 'Approach' },
   { id: 'chess-club', label: 'Chess Club' },
+  { id: 'chess-lessons', label: 'Lessons' },
   { id: 'difference', label: 'Difference' },
   { id: 'signup', label: 'Sign Up' },
 ]
@@ -72,6 +73,54 @@ export const chessClub: Module = {
     'Discipline & resilience',
   ],
 }
+
+export interface ChessLessonPackage {
+  id: string
+  lessons: string
+  price: string
+  rateNote: string
+  name: string
+  highlights: string[]
+  featured: boolean
+}
+
+export const chessLessonsInfo = {
+  eyebrow: 'Chess Lessons for Adults',
+  title: 'Package rates',
+  tagline: 'Learn chess • Improve strategy • Master the game',
+  note: 'One-on-one coaching for adults — whether you are learning the moves for the first time or sharpening a game you already play.',
+}
+
+// Paid adult offering — separate from the free Chess Club for kids above.
+export const chessLessonPackages: ChessLessonPackage[] = [
+  {
+    id: 'single-lesson',
+    lessons: '1 Lesson',
+    price: 'R150',
+    rateNote: '/ an hour',
+    name: 'Single Lesson',
+    highlights: ['Pay per session', 'Ideal for a first lesson'],
+    featured: false,
+  },
+  {
+    id: 'starter-package',
+    lessons: '4 Lessons',
+    price: 'R480',
+    rateNote: 'R120 / lesson',
+    name: 'Starter Package',
+    highlights: ['Flexible scheduling', 'Focus on fundamentals'],
+    featured: true,
+  },
+  {
+    id: 'skill-master-package',
+    lessons: '8 Lessons',
+    price: 'R880',
+    rateNote: 'R110 / lesson',
+    name: 'Skill Master Package',
+    highlights: ['Advanced strategies', 'Comprehensive learning', 'Best value & progress'],
+    featured: false,
+  },
+]
 
 export interface TimelineStep {
   id: string

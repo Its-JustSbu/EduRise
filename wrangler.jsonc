@@ -7,5 +7,25 @@
   },
   "assets": {
     "not_found_handling": "single-page-application"
+  },
+  "env": {
+    // Production serves the apex and www on the real domain. Both custom
+    // domains need the zone to be active in Cloudflare first — a deploy fails
+    // here if the nameservers have not been migrated yet. workers_dev is off
+    // so the site has a single canonical origin for search engines.
+    "production": {
+      "name": "edurise",
+      "workers_dev": false,
+      "routes": [
+        { "pattern": "eduriseacademy.co.za", "custom_domain": true },
+        { "pattern": "www.eduriseacademy.co.za", "custom_domain": true }
+      ]
+    },
+    // Staging deliberately stays on workers.dev: it keeps deploying
+    // independently of the DNS migration and is not discoverable on the
+    // domain. Add a custom_domain route here if you later want dev.<domain>.
+    "devtest": {
+      "name": "edurise-devtest"
+    }
   }
 }

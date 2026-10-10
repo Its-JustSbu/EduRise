@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { motion, AnimatePresence } from 'motion-v'
 import { createSignUpForm } from '@/composables/useFormValidation'
-import { educationalSupportModules, chessClub } from '@/data/siteContent'
+import { educationalSupportModules, chessClub, chessLessonPackages } from '@/data/siteContent'
 import BaseButton from './BaseButton.vue'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
@@ -133,6 +133,14 @@ async function handleSubmit() {
       </fieldset>
 
       <fieldset class="signup-form__fieldset">
+        <legend>Chess Lessons for Adults <span class="signup-form__legend-tag">Paid</span></legend>
+        <label v-for="pkg in chessLessonPackages" :key="pkg.id" class="signup-form__checkbox">
+          <input v-model="form.modules" type="checkbox" :value="`${pkg.name} (${pkg.lessons})`" />
+          <span>{{ pkg.name }} &mdash; {{ pkg.price }}</span>
+        </label>
+      </fieldset>
+
+      <fieldset class="signup-form__fieldset">
         <legend>Preferred contact method</legend>
         <label v-for="method in ['Email', 'Phone', 'WhatsApp']" :key="method" class="signup-form__radio">
           <input v-model="form.contactMethod" type="radio" :value="method" name="contactMethod" />
@@ -153,7 +161,7 @@ async function handleSubmit() {
 
       <p v-if="status === 'error'" class="signup-form__error signup-form__error--banner">
         Something went wrong sending your enquiry. Please try again, or email us directly at
-        <a href="mailto:mphomabesela26@gmail.com">mphomabesela26@gmail.com</a>.
+        <a href="mailto:info@eduriseacademy.co.za">info@eduriseacademy.co.za</a>.
       </p>
 
       <BaseButton type="submit" :disabled="status === 'submitting'">
