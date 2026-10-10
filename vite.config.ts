@@ -6,7 +6,95 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 import { cloudflare } from "@cloudflare/vite-plugin";
 
+import {
+  chessClub,
+  chessLessonPackages,
+  directors,
+  educationalSupportModules,
+  orgInfo,
+} from './src/data/siteContent'
+
 const SITE_ORIGIN = 'https://eduriseacademy.co.za'
+const CONTACT_EMAIL = 'info@eduriseacademy.co.za'
+
+// Structured data for the organisation, injected into index.html at build
+// time. It is built from src/data/siteContent.ts rather than hand-written so
+// the prices and services search engines see can never drift away from the
+// ones on the page — a mismatch is treated as untrustworthy markup.
+//
+// This matters more than usual here: the app is client-rendered, so the HTML a
+// crawler receives has no body text at all. Until the page is prerendered,
+// this block is effectively the only substantive content in the response.
+function buildStructuredData() {
+  // Prices are plain rands in the content file ("R480"); Schema.org wants a
+  // bare number alongside an explicit currency.
+  const toAmount = (price: string) => price.replace(/[^0-9.]/g, '')
+
+  const paidLessons = chessLessonPackages.map((pkg) => ({
+    '@type': 'Offer',
+    name: `${pkg.name} (${pkg.lessons})`,
+    price: toAmount(pkg.price),
+    priceCurrency: 'ZAR',
+    availability: 'https://schema.org/InStock',
+    itemOffered: {
+      '@type': 'Service',
+      name: `Chess lessons for adults — ${pkg.name}`,
+      description: pkg.highlights.join('. '),
+    },
+  }))
+
+  const freeChessClub = {
+    '@type': 'Offer',
+    name: chessClub.title,
+    price: '0',
+    priceCurrency: 'ZAR',
+    availability: 'https://schema.org/InStock',
+    itemOffered: {
+      '@type': 'Service',
+      name: chessClub.title,
+      description: chessClub.summary,
+    },
+  }
+
+  // The support modules are priced per learner after an assessment, so they
+  // are listed as services without an Offer rather than with an invented price.
+  const supportServices = educationalSupportModules.map((module) => ({
+    '@type': 'Service',
+    name: module.title,
+    description: module.summary,
+  }))
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': ['EducationalOrganization', 'LocalBusiness'],
+    '@id': `${SITE_ORIGIN}/#organization`,
+    name: orgInfo.name,
+    url: `${SITE_ORIGIN}/`,
+    slogan: orgInfo.tagline,
+    description: orgInfo.outcomeStatement,
+    email: CONTACT_EMAIL,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Ikageng, Potchefstroom',
+      addressRegion: 'North West',
+      addressCountry: 'ZA',
+    },
+    areaServed: { '@type': 'City', name: 'Potchefstroom' },
+    contactPoint: directors.map((director) => ({
+      '@type': 'ContactPoint',
+      contactType: 'Program director',
+      name: director.name,
+      telephone: director.phone,
+      email: CONTACT_EMAIL,
+    })),
+    makesOffer: [...paidLessons, freeChessClub],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Educational Support',
+      itemListElement: supportServices,
+    },
+  }
+}
 
 // Emits robots.txt and sitemap.xml into the build.
 //
@@ -24,6 +112,18 @@ function seoFiles(): Plugin {
   return {
     name: 'edurise-seo-files',
     apply: 'build',
+
+    transformIndexHtml() {
+      return [
+        {
+          tag: 'script',
+          attrs: { type: 'application/ld+json' },
+          children: JSON.stringify(buildStructuredData(), null, 2),
+          injectTo: 'head',
+        },
+      ]
+    },
+
     generateBundle() {
       const isStaging = process.env.CLOUDFLARE_ENV === 'devtest'
 
