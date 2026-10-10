@@ -25,9 +25,14 @@ jobs:
       - run: npm run lint
       - run: npm run type-check
       - run: npm run test:unit -- --run
+      # The Cloudflare Vite plugin resolves the Wrangler environment at BUILD
+      # time and writes a flattened dist/wrangler.json, so the artifact is
+      # environment-specific. CLOUDFLARE_ENV must match the deploy job that
+      # consumes it; both are keyed off github.ref so they cannot diverge.
       - run: npm run build
         env:
           VITE_WEB3FORMS_KEY: ${{ secrets.VITE_WEB3FORMS_KEY }}
+          CLOUDFLARE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'devtest' }}
 
       - name: Publish build artifact
         uses: actions/upload-artifact@v4
@@ -56,13 +61,21 @@ jobs:
           name: site-build-${{ github.sha }}
           path: dist
 
+      - name: Verify artifact targets devtest
+        run: |
+          name=$(node -p "require('./dist/wrangler.json').name")
+          test "$name" = "edurise-devtest" || {
+            echo "::error::Artifact was built for '$name', refusing to deploy it as devtest"
+            exit 1
+          }
+
       - name: Deploy to Cloudflare Workers (devtest)
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: '4.135.0'
-          command: deploy --config dist/wrangler.json --name edurise-devtest
+          command: deploy --config dist/wrangler.json
 
   # Depends only on build-and-test (not deploy-devtest): pushing to devtest and
   # pushing to main are mutually exclusive triggers for the same event, so a
@@ -76,7 +89,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: https://edurise.116superstm.workers.dev
+      url: https://eduriseacademy.co.za
     steps:
       - uses: actions/checkout@v4
 
@@ -86,13 +99,24 @@ jobs:
           name: site-build-${{ github.sha }}
           path: dist
 
+      - name: Verify artifact targets production
+        run: |
+          name=$(node -p "require('./dist/wrangler.json').name")
+          test "$name" = "edurise" || {
+            echo "::error::Artifact was built for '$name', refusing to deploy it as production"
+            exit 1
+          }
+
+      # Creating the custom domains needs Zone (Read) and Workers Routes (Edit)
+      # on eduriseacademy.co.za in addition to the Workers scopes, and the zone
+      # must already be active in Cloudflare.
       - name: Deploy to Cloudflare Workers (production)
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: '4.135.0'
-          command: deploy --config dist/wrangler.json --name edurise
+          command: deploy --config dist/wrangler.json
 
   # Tags the exact commit that just went live and publishes a GitHub Release
   # with auto-generated notes, so there's a clear record of what shipped and

@@ -161,7 +161,7 @@ async function handleSubmit() {
 
       <p v-if="status === 'error'" class="signup-form__error signup-form__error--banner">
         Something went wrong sending your enquiry. Please try again, or email us directly at
-        <a href="mailto:mphomabesela26@gmail.com">mphomabesela26@gmail.com</a>.
+        <a href="mailto:info@eduriseacademy.co.za">info@eduriseacademy.co.za</a>.
       </p>
 
       <BaseButton type="submit" :disabled="status === 'submitting'">
