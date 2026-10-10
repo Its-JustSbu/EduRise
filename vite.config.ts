@@ -75,10 +75,18 @@ function buildStructuredData() {
     email: CONTACT_EMAIL,
     address: {
       '@type': 'PostalAddress',
-      addressLocality: 'Ikageng, Potchefstroom',
-      addressRegion: 'North West',
-      addressCountry: 'ZA',
+      streetAddress: `${orgInfo.address.venue}, ${orgInfo.address.street}`,
+      addressLocality: orgInfo.address.locality,
+      addressRegion: orgInfo.address.region,
+      postalCode: orgInfo.address.postalCode,
+      addressCountry: orgInfo.address.country,
     },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: orgInfo.geo.latitude,
+      longitude: orgInfo.geo.longitude,
+    },
+    hasMap: orgInfo.mapUrl,
     areaServed: { '@type': 'City', name: 'Potchefstroom' },
     contactPoint: directors.map((director) => ({
       '@type': 'ContactPoint',

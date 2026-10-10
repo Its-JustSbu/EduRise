@@ -26,7 +26,11 @@ const year = new Date().getFullYear()
       </div>
 
       <div class="app-footer__location">
-        <p>{{ orgInfo.location }}</p>
+        <p>
+          <a :href="orgInfo.mapUrl" target="_blank" rel="noopener noreferrer">
+            {{ orgInfo.location }}
+          </a>
+        </p>
       </div>
     </div>
 
@@ -95,6 +99,17 @@ const year = new Date().getFullYear()
 .app-footer__contact-name {
   color: var(--color-white);
   font-weight: 600;
+}
+
+.app-footer__location a {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: text-decoration-color 0.25s var(--ease-out-soft);
+}
+
+.app-footer__location a:hover,
+.app-footer__location a:focus-visible {
+  text-decoration-color: currentColor;
 }
 
 .app-footer__location {
