@@ -156,17 +156,16 @@ export const orgInfo = {
   name: 'Tlhokomela Bokamoso Academy',
   tagline: 'Develop the learner, not just the skill.',
   outcomeStatement: 'Developing Minds. Building Character. Empowering Futures.',
-  location: 'Boitshoko High School, Lekhele Street, Ikageng, Potchefstroom',
+  location: '3986 Letshulu Street, Ikageng, Potchefstroom',
   // Broken out so the structured data can publish a full postal address and
   // coordinates rather than a single display string.
   address: {
-    venue: 'Boitshoko High School',
-    street: 'Lekhele Street',
+    street: '3986 Letshulu Street',
     locality: 'Ikageng, Potchefstroom',
     region: 'North West',
     postalCode: '2539',
     country: 'ZA',
   },
-  geo: { latitude: -26.7193426, longitude: 27.0462796 },
-  mapUrl: 'https://maps.app.goo.gl/FJffno9esJPMSvRB6',
+  geo: { latitude: -26.730572, longitude: 27.0515799 },
+  mapUrl: 'https://www.google.com/maps?q=-26.730572,27.0515799',
 }

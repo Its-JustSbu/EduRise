@@ -75,7 +75,7 @@ function buildStructuredData() {
     email: CONTACT_EMAIL,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: `${orgInfo.address.venue}, ${orgInfo.address.street}`,
+      streetAddress: orgInfo.address.street,
       addressLocality: orgInfo.address.locality,
       addressRegion: orgInfo.address.region,
       postalCode: orgInfo.address.postalCode,
